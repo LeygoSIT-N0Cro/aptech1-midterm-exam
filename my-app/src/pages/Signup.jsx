@@ -1,22 +1,68 @@
-﻿import React, { useState } from 'react'
+﻿//
+//
+// was not able to separate commits step 3 and step 4
+//
+//
+import React, { useState, useEffect } from 'react'
 import './Signup.css'
 
 const Signup = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' })
   const [submittedData, setSubmittedData] = useState(null)
   const [errors, setErrors] = useState({})
+  const [isFormValid, setIsFormValid] = useState(false)
 
   const handleChange = (event) => {
     const { name, value } = event.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+    validateField(name, value)
   }
 
   const handleSubmit = (event) => {
     event.preventDefault()
     if (validateForm()) {
       setSubmittedData(formData)
+      setFormData({ name: '', email: '', password: '' })
+      setErrors({})
     }
-    setFormData({ name: '', email: '', password: '' })
+  }
+
+  const validateField = (fieldName, value) => {
+    let fieldErrors = { ...errors }
+
+    switch (fieldName) {
+      case 'name':
+        const nameRegex = /^[A-Za-z]{2,}$/;
+        const usernameRegex = /^[A-Za-z0-9._-]+$/;
+        if (!nameRegex.test(value)) {
+          fieldErrors.name = 'First name and surname must be at least 2 letters and contain only letters.';
+        } else if (!usernameRegex.test(value)) {
+          fieldErrors.name = 'Username can only contain letters, numbers, dots, underscores, and hyphens.';
+        } else {
+          delete fieldErrors.name;
+        }
+        break;
+      case 'email':
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(value)) {
+          fieldErrors.email = 'Please enter a valid email address.';
+        } else {
+          delete fieldErrors.email;
+        }
+        break;
+      case 'password':
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+        if (!passwordRegex.test(value)) {
+          fieldErrors.password = 'Password must be 8-16 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.';
+        } else {
+          delete fieldErrors.password;
+        }
+        break;
+      default:
+        break;
+    }
+
+    setErrors(fieldErrors)
   }
 
   const validateForm = () => {
@@ -29,10 +75,8 @@ const Signup = () => {
 
     if (!nameRegex.test(name)) {
       validationErrors.name = 'First name and surname must be at least 2 letters and contain only letters.';
-    }
-
-    if (!usernameRegex.test(name)) {
-      validationErrors.username = 'Username can only contain letters, numbers, dots, underscores, and hyphens.';
+    } else if (!usernameRegex.test(name)) {
+      validationErrors.name = 'Username can only contain letters, numbers, dots, underscores, and hyphens.';
     }
 
     if (!passwordRegex.test(password)) {
@@ -47,6 +91,10 @@ const Signup = () => {
     return Object.keys(validationErrors).length === 0;
   }
 
+  useEffect(() => {
+    setIsFormValid(Object.keys(errors).length === 0 && formData.name && formData.email && formData.password)
+  }, [errors, formData])
+
   return (
     <main className='page-content'>
       <h1>Signup</h1>
@@ -59,8 +107,10 @@ const Signup = () => {
             value={formData.name}
             onChange={handleChange} 
             placeholder='Enter your name'
+            className={errors.name ? 'invalid' : ''}
             required
           />
+          {errors.name && <span className="error-message">{errors.name}</span>}
         </label>
 
         <label>
@@ -69,10 +119,12 @@ const Signup = () => {
             type='email'
             name='email'
             value={formData.email}
-            onChange={(event) => setFormData((prev) => ({ ...prev, email: event.target.value }))} // inline handler
+            onChange={handleChange}
             placeholder='Enter your email'
+            className={errors.email ? 'invalid' : ''}
             required
           />
+          {errors.email && <span className="error-message">{errors.email}</span>}
         </label>
 
         <label>
@@ -83,11 +135,13 @@ const Signup = () => {
             value={formData.password}
             onChange={handleChange}
             placeholder='Enter your password'
+            className={errors.password ? 'invalid' : ''}
             required
           />
+          {errors.password && <span className="error-message">{errors.password}</span>}
         </label>
 
-        <button type='submit'>Create account</button>
+        <button type='submit' disabled={!isFormValid}>Create account</button>
       </form>
 
       {submittedData && (
