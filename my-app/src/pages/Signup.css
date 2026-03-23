@@ -1,0 +1,83 @@
+
+.page-content {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+}
+
+.page-content h1 {
+  text-align: center;
+  color: #fffefe;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  background-color: #000000;
+    padding: 0.9rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: #555;
+}
+
+input {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+button:hover {
+  background-color: #357abd;
+}
+
+button:active {
+  background-color: #2c5aa0;
+}
+
+.submitted {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #f0f8ff;
+  border: 1px solid #4a90e2;
+  border-radius: 4px;
+}
+
+.submitted h2 {
+  color: #4a90e2;
+  margin-bottom: 1rem;
+}
+
+.submitted p {
+  margin: 0.5rem 0;
+  color: #333;
+}

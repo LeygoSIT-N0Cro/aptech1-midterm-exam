@@ -1,13 +1,10 @@
-﻿//
-//
-// was not able to separate commits step 3 and step 4
-//
-//
-import React, { useState } from 'react'
+﻿import React, { useState } from 'react'
+import './Signup.css'
 
 const Signup = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' })
   const [submittedData, setSubmittedData] = useState(null)
+  const [errors, setErrors] = useState({})
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -16,8 +13,38 @@ const Signup = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    setSubmittedData(formData)
+    if (validateForm()) {
+      setSubmittedData(formData)
+    }
     setFormData({ name: '', email: '', password: '' })
+  }
+
+  const validateForm = () => {
+    const { name, email, password } = formData;
+    let validationErrors = {};
+    const nameRegex = /^[A-Za-z]{2,}$/;
+    const usernameRegex = /^[A-Za-z0-9._-]+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!nameRegex.test(name)) {
+      validationErrors.name = 'First name and surname must be at least 2 letters and contain only letters.';
+    }
+
+    if (!usernameRegex.test(name)) {
+      validationErrors.username = 'Username can only contain letters, numbers, dots, underscores, and hyphens.';
+    }
+
+    if (!passwordRegex.test(password)) {
+      validationErrors.password = 'Password must be 8-16 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.';
+    }
+
+    if (!emailRegex.test(email)) {
+      validationErrors.email = 'Please enter a valid email address.';
+    }
+
+    setErrors(validationErrors);
+    return Object.keys(validationErrors).length === 0;
   }
 
   return (
