@@ -1,4 +1,9 @@
-﻿import React, { useState } from 'react'
+﻿//
+//
+// was not able to separate commits step 3 and step 4
+//
+//
+import React, { useState } from 'react'
 
 const Signup = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' })
