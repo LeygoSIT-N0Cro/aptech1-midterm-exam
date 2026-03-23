@@ -161,6 +161,20 @@
   }
 }
 
+.app-shell {
+  padding: 1rem;
+  max-width: 1100px;
+  margin: 1rem auto;
+}
+
+.page-content {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.12);
+}
+
 .ticks {
   position: relative;
   width: 100%;
