@@ -4,9 +4,11 @@
 //
 //
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Signup.css'
 
 const Signup = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({ name: '', email: '', password: '' })
   const [submittedData, setSubmittedData] = useState(null)
   const [errors, setErrors] = useState({})
@@ -24,6 +26,7 @@ const Signup = () => {
       setSubmittedData(formData)
       setFormData({ name: '', email: '', password: '' })
       setErrors({})
+      navigate('/success')
     }
   }
 
